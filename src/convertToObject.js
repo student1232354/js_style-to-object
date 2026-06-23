@@ -10,14 +10,14 @@ function convertToObject(sourceString) {
     .split(';')
     .map((item) => item.trim())
     .filter((item) => item.includes(':'))
-    .reduce((rawobj, currentItem) => {
+    .reduce((stylesObject, currentItem) => {
       const [key, value] = currentItem.split(':');
       const preparedkey = key.trim();
       const preparedvalue = value.trim().replace(/;$/, '');
 
-      rawobj[preparedkey] = preparedvalue;
+      stylesObject[preparedkey] = preparedvalue;
 
-      return rawobj;
+      return stylesObject;
     }, {});
 }
 
