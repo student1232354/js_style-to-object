@@ -6,33 +6,19 @@
  * @return {object}
  */
 function convertToObject(sourceString) {
-  const rawobj = {};
-  const splittedobj = sourceString.split(';');
+  return sourceString
+    .split(';')
+    .map((item) => item.trim())
+    .filter((item) => item.includes(':'))
+    .reduce((rawobj, currentItem) => {
+      const [key, value] = currentItem.split(':');
+      const preparedkey = key.trim();
+      const preparedvalue = value.trim().replace(/;$/, '');
 
-  for (let i = 0; i < splittedobj.length; i++) {
-    const newItem = splittedobj[i].trim();
+      rawobj[preparedkey] = preparedvalue;
 
-    if (!newItem) {
-      continue;
-    }
-
-    const arraynew = newItem.split(':');
-
-    const keyofarray = arraynew[0];
-    const valueofarray = arraynew[1];
-
-    if (valueofarray === undefined) {
-      continue;
-    }
-
-    const preparedkey = keyofarray.trim();
-
-    const preparedvalue = valueofarray.trim().replace(/;$/, '');
-
-    rawobj[preparedkey] = preparedvalue;
-  }
-
-  return rawobj;
+      return rawobj;
+    }, {});
 }
 
 module.exports = convertToObject;
